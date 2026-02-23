@@ -5,56 +5,73 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Management System</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-database.js"></script>
 </head>
 <body>
     <header>
         <h1>Student Management System</h1>
-        <nav>
-            <ul>
-                <li><a href="#dashboard">Dashboard</a></li>
-                <li><a href="#student-list">Student List</a></li>
-                <li><a href="#add-student">Add/Edit Student</a></li>
-            </ul>
-        </nav>
     </header>
+
     <main>
-        <section id="dashboard">
-            <h2>Dashboard</h2>
-            <p>Welcome to the Student Management System. Manage your students effectively.</p>
-        </section>
-        <section id="student-list">
-            <h2>Student List</h2>
-            <input type="text" id="search" placeholder="Search for students...">
-            <ul id="students">
-                <!-- Student list will be populated here -->
-            </ul>
-        </section>
         <section id="add-student">
-            <h2>Add/Edit Student</h2>
+            <h2>Add Student</h2>
             <form id="student-form">
-                <label for="name">Name:</label>
-                <input type="text" id="name" required>
-                <label for="age">Age:</label>
-                <input type="number" id="age" required>
-                <label for="grade">Grade:</label>
-                <input type="text" id="grade" required>
-                <button type="submit">Save Student</button>
+                <input type="text" id="student-name" placeholder="Student Name" required>
+                <button type="submit">Add Student</button>
             </form>
         </section>
-    </main>
-    <footer>
-        <p>&copy; 2026 Student Management System</p>
-    </footer>
-    <script>
-        // JavaScript for handling search and form submission
-        document.getElementById('search').addEventListener('input', function() {
-            // Search functionality to filter students
-        });
 
+        <section id="student-list">
+            <h2>Students</h2>
+            <ul id="students"></ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 TechnocoolMW</p>
+    </footer>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            databaseURL: "YOUR_DATABASE_URL",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // Add student functionality
         document.getElementById('student-form').addEventListener('submit', function(event) {
             event.preventDefault();
-            // Code to add/edit student
+            const studentName = document.getElementById('student-name').value;
+            const studentId = database.ref('students').push().key;
+            database.ref('students/' + studentId).set({
+                name: studentName
+            });
+            document.getElementById('student-name').value = '';
+        });
+
+        // Retrieve and display students
+        database.ref('students').on('value', function(snapshot) {
+            const students = snapshot.val();
+            const studentsList = document.getElementById('students');
+            studentsList.innerHTML = '';
+            for (const id in students) {
+                const li = document.createElement('li');
+                li.textContent = students[id].name;
+                studentsList.appendChild(li);
+            }
         });
     </script>
+
+    <link rel="stylesheet" href="styles.css">
 </body>
 </html>
