@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Student Management System</h1>
+        <nav>
+            <ul>
+                <li><a href="#dashboard">Dashboard</a></li>
+                <li><a href="#student-list">Student List</a></li>
+                <li><a href="#add-student">Add/Edit Student</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section id="dashboard">
+            <h2>Dashboard</h2>
+            <p>Welcome to the Student Management System. Manage your students effectively.</p>
+        </section>
+        <section id="student-list">
+            <h2>Student List</h2>
+            <input type="text" id="search" placeholder="Search for students...">
+            <ul id="students">
+                <!-- Student list will be populated here -->
+            </ul>
+        </section>
+        <section id="add-student">
+            <h2>Add/Edit Student</h2>
+            <form id="student-form">
+                <label for="name">Name:</label>
+                <input type="text" id="name" required>
+                <label for="age">Age:</label>
+                <input type="number" id="age" required>
+                <label for="grade">Grade:</label>
+                <input type="text" id="grade" required>
+                <button type="submit">Save Student</button>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2026 Student Management System</p>
+    </footer>
+    <script>
+        // JavaScript for handling search and form submission
+        document.getElementById('search').addEventListener('input', function() {
+            // Search functionality to filter students
+        });
+
+        document.getElementById('student-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            // Code to add/edit student
+        });
+    </script>
+</body>
+</html>
